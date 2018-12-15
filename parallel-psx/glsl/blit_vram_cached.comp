@@ -3,9 +3,9 @@ layout(local_size_x = 128) in;
 
 #if defined(SCALED)
 #if defined(MSAA)
-layout(set = 0, binding = 0, rgba8) uniform image2DMS uFramebuffer;
+layout(set = 0, binding = 0, rgb10_a2) uniform image2DMS uFramebuffer;
 #else
-layout(set = 0, binding = 0, rgba8) uniform image2D uFramebuffer;
+layout(set = 0, binding = 0, rgb10_a2) uniform image2D uFramebuffer;
 #endif
 #elif defined(UNSCALED)
 layout(set = 0, binding = 0, r32ui) uniform uimage2D uFramebuffer;

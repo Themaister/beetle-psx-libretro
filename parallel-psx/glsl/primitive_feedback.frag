@@ -59,7 +59,7 @@ void main()
 	// This is required for various "fade" out effects.
 	// However, don't accidentially round down if we are already rounded to avoid
 	// unintended feedback effects.
-	FragColor.rgb -= 0.49 / 255.0;
+	FragColor.rgb -= 0.49 / 1023.0;
 
 #if 0
 #if defined(TEXTURED)

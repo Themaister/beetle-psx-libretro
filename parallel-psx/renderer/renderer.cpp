@@ -58,7 +58,7 @@ Renderer::Renderer(Device &device, unsigned scaling, unsigned msaa_, const SaveS
 
 	info.width *= scaling;
 	info.height *= scaling;
-	info.format = VK_FORMAT_R8G8B8A8_UNORM;
+	info.format = VK_FORMAT_A2B10G10R10_UNORM_PACK32;
 	info.levels = trailing_zeroes(scaling) + 1;
 	info.usage = VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT |
 	             VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_STORAGE_BIT |
@@ -91,7 +91,7 @@ Renderer::Renderer(Device &device, unsigned scaling, unsigned msaa_, const SaveS
 			msaa = 1;
 			LOGI("[Vulkan]: shaderStorageImageMultisample is not supported by this implementation. Cannot use MSAA.\n");
 		}
-		else if (!device.get_image_format_properties(VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TYPE_2D, VK_IMAGE_TILING_OPTIMAL,
+		else if (!device.get_image_format_properties(VK_FORMAT_A2B10G10R10_UNORM_PACK32, VK_IMAGE_TYPE_2D, VK_IMAGE_TILING_OPTIMAL,
 					VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT |
 					VK_IMAGE_USAGE_STORAGE_BIT |
 					VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT |
@@ -717,7 +717,7 @@ ImageHandle Renderer::scanout_to_texture()
 	auto info = ImageCreateInfo::render_target(
 			rect.width * (scaled ? scaling : 1),
 			rect.height * (scaled ? scaling : 1),
-			render_state.scanout_mode == ScanoutMode::ABGR1555_Dither ? VK_FORMAT_A1R5G5B5_UNORM_PACK16 : VK_FORMAT_R8G8B8A8_UNORM);
+			render_state.scanout_mode == ScanoutMode::ABGR1555_Dither ? VK_FORMAT_A1R5G5B5_UNORM_PACK16 : VK_FORMAT_A2B10G10R10_UNORM_PACK32);
 
 	if (!reuseable_scanout ||
 			reuseable_scanout->get_create_info().width != info.width ||
