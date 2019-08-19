@@ -37,6 +37,11 @@ static void write_u16(const uint16_t *values, unsigned w, unsigned h)
       fwrite(values + y * 1024, sizeof(uint16_t), w, file);
 }
 
+static void write_u16(uint16_t value)
+{
+   fwrite(&value, sizeof(value), 1, file);
+}
+
 static void write_i32(int32_t value)
 {
    fwrite(&value, sizeof(value), 1, file);
@@ -64,6 +69,10 @@ static void rsx_dump_state(const rsx_render_state &state)
    write_u32(state.blend_mode);
    write_u32(state.mask_test);
    write_u32(state.set_mask);
+   write_u16(state.min_u);
+   write_u16(state.min_v);
+   write_u16(state.max_u);
+   write_u16(state.max_v);
 }
 
 void rsx_dump_init(const char *path)
@@ -73,7 +82,7 @@ void rsx_dump_init(const char *path)
 
    file = fopen(path, "wb");
    if (file)
-      fwrite("RSXDUMP2", 8, 1, file);
+      fwrite("RSXDUMP3", 8, 1, file);
 }
 
 void rsx_dump_deinit(void)
